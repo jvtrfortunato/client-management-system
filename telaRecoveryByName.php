@@ -14,8 +14,8 @@ $errorMessage = '';
 
 // Verifica se um nome foi enviado via POST
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    if (isset($_POST['nome']) && !empty($_POST['nome'])) {
-        $nomeBusca = $_POST['nome'];
+    if (isset($_POST['nomeBusca']) && !empty($_POST['nomeBusca'])) {
+        $nomeBusca = $_POST['nomeBusca'];
 
         // Tenta recuperar os clientes pelo nome
         $clientesBuscados = $bdClientes->recoveryByName($nomeBusca);
@@ -34,41 +34,110 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Recovery By Name</title>
+    <title>Buscar Cliente por Nome</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 250px;
+            margin-right: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        table, th, td {
+            border: 1px solid #ddd;
+        }
+        th, td {
+            padding: 10px;
+            text-align: left;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+        .error {
+            color: red;
+            text-align: center;
+            margin-top: 10px;
+        }
+    </style>
 </head>
 <body>
-    <h1>Buscar Clientes por Nome</h1>
+    <div class="container">
+        <h1>Buscar Cliente por Nome</h1>
 
-    <form method="POST" action="">
-        <label for="nome">Digite o nome do cliente:</label>
-        <input type="text" name="nome" id="nome" required>
-        <button type="submit">Buscar</button>
-    </form>
+        <form method="POST" action="">
+            <input type="text" name="nomeBusca" id="nomeBusca" placeholder="Digite o nome do cliente" required>
+            <button type="submit">Buscar</button>
+        </form>
 
-    <?php if (!empty($clientesBuscados)): ?>
-        <h2>Resultados da Busca</h2>
-        <table border="1">
-            <thead>
-                <tr>
-                    <th>ID</th>
-                    <th>Nome</th>
-                    <th>CPF</th>
-                    <th>Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($clientesBuscados as $cliente): ?>
+        <?php if (!empty($clientesBuscados)): ?>
+            <table>
+                <thead>
                     <tr>
-                        <td><?php echo $cliente['id']; ?></td>
-                        <td><?php echo $cliente['nome']; ?></td>
-                        <td><?php echo $cliente['cpf']; ?></td>
-                        <td><?php echo $cliente['email']; ?></td>
+                        <th>ID</th>
+                        <th>Nome</th>
+                        <th>CPF</th>
+                        <th>Email</th>
                     </tr>
-                <?php endforeach; ?>
-            </tbody>
-        </table>
-    <?php elseif (!empty($errorMessage)): ?>
-        <p><?php echo $errorMessage; ?></p>
-    <?php endif; ?>
+                </thead>
+                <tbody>
+                    <?php foreach ($clientesBuscados as $cliente): ?>
+                        <tr>
+                            <td><?php echo htmlspecialchars($cliente['id']); ?></td>
+                            <td><?php echo htmlspecialchars($cliente['nome']); ?></td>
+                            <td><?php echo htmlspecialchars($cliente['cpf']); ?></td>
+                            <td><?php echo htmlspecialchars($cliente['email']); ?></td>
+                        </tr>
+                    <?php endforeach; ?>
+                </tbody>
+            </table>
+        <?php elseif (!empty($errorMessage)): ?>
+            <p class="error"><?php echo $errorMessage; ?></p>
+        <?php endif; ?>
+    </div>
 </body>
 </html>

@@ -39,31 +39,84 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Update</title>
+    <title>Atualizar Cliente</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        input[type="text"], input[type="number"], input[type="email"] {
+            padding: 10px;
+            width: 300px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .message {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .error {
+            color: red;
+        }
+        .success {
+            color: green;
+        }
+    </style>
 </head>
 <body>
-    <h1>Atualizar Cliente</h1>
+    <div class="container">
+        <h1>Atualizar Cliente</h1>
 
-    <form method="POST" action="">
-        <label for="id">ID do Cliente:</label>
-        <input type="number" name="id" id="id" required><br><br>
+        <form method="POST" action="">
+            <input type="number" name="id" id="id" placeholder="ID do cliente" required>
+            <input type="text" name="nome" id="nome" placeholder="Novo nome do cliente" required>
+            <input type="text" name="cpf" id="cpf" placeholder="Novo CPF do cliente" required>
+            <input type="email" name="email" id="email" placeholder="Novo email do cliente" required>
+            <button type="submit">Atualizar</button>
+        </form>
 
-        <label for="nome">Novo nome:</label>
-        <input type="text" name="nome" id="nome" required><br><br>
-
-        <label for="cpf">Novo CPF:</label>
-        <input type="text" name="cpf" id="cpf" required><br><br>
-
-        <label for="email">Novo email:</label>
-        <input type="email" name="email" id="email" required><br><br>
-
-        <button type="submit">Atualizar Cliente</button>
-    </form>
-
-    <?php if (!empty($successMessage)): ?>
-        <p style="color: green;"><?php echo $successMessage; ?></p>
-    <?php elseif (!empty($errorMessage)): ?>
-        <p style="color: red;"><?php echo $errorMessage; ?></p>
-    <?php endif; ?>
+        <div class="message">
+            <?php if (!empty($errorMessage)): ?>
+                <p class="error"><?php echo $errorMessage; ?></p>
+            <?php elseif (!empty($successMessage)): ?>
+                <p class="success"><?php echo $successMessage; ?></p>
+            <?php endif; ?>
+        </div>
+    </div>
 </body>
 </html>
